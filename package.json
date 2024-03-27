@@ -5,6 +5,7 @@
   "main": "server.mjs",
   "scripts": {
     "start": "node server.js",
+    "build:client": "cd primavera-coffee-app && npm run build",
     "start:client": "cd primavera-coffee-app && npm start",
     "start:server": "cd server && npm start",
     "dev": "concurrently \"npm run start:client\" \"npm run start:server\"",
