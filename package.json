@@ -1,0 +1,21 @@
+{
+  "name": "primavera-coffee-app",
+  "version": "0.0.1",
+  "description": "This is a basic UI to manage and track earnings and expenses.",
+  "main": "server.js",
+  "scripts": {
+    "start:client": "cd primavera-coffee-app && npm start",
+    "start:server": "cd server && npm start",
+    "dev": "concurrently \"npm run start:client\" \"npm run start:server\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nicholas Santiago",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^8.2.2",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
