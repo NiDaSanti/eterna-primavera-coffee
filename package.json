@@ -2,7 +2,7 @@
   "name": "primavera-coffee-app",
   "version": "0.0.1",
   "description": "This is a basic UI to manage and track earnings and expenses.",
-  "main": "server.mjs",
+  "main": "server/server.mjs",
   "scripts": {
     "start": "node server.js",
     "build:client": "cd primavera-coffee-app && npm run build",
