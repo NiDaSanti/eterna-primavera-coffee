@@ -29,6 +29,14 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something went wrong!')
 })
 
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('primavera-coffee-app/build'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'primavera-coffee-app', 'build', 'index.html'));
+  });
+}
+
 app.listen(port, () => {
   console.log(`Hi Primavera, this is port ${port}`)
 })
