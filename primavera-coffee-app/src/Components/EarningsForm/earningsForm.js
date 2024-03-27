@@ -54,7 +54,7 @@ const EarningsForm = ({updateEarnings}) => {
 
       if(earningsFormData.earningsAmount && earningsFormData.entity && earningsFormData.notes) {
         setLoading(true)
-        const response = await fetch(`http://localhost:3001/api/create-earning/earning`, {
+        const response = await fetch(`https://eterna-primavera-512c65c679c2.herokuapp.com/api/create-earning/earning`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

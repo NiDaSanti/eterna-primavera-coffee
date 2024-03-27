@@ -4,7 +4,7 @@ import cors from 'cors'
 import { authenticateUser, createExpenseRecord, createEarningsRecord, getExpenseData, getEarningData, router} from './routes/expense-earnings-routes.mjs'
 const port = process.env.PORT || 3001
 const app = express()
-const allowedOrigins = ['http://localhost:3000', 'http://localhost:3001']
+const allowedOrigins = ['http://localhost:3000', 'http://localhost:3001', 'https://eterna-primavera-512c65c679c2.herokuapp.com/']
 
 app.use(cors({
   origin: (origin, callback) => {
