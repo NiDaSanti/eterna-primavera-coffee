@@ -20,6 +20,7 @@ const UserLogin = ({setAuthenticated}) => {
     password: ''
   })
   const [message, setMessage] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -36,22 +37,26 @@ const UserLogin = ({setAuthenticated}) => {
         alias: primaCredential.userName,
         password: primaCredential.password
       }
-      const response = await fetch('https://eterna-primavera-512c65c679c2.herokuapp.com/api/user/auth', {
-        method: 'POST',
-        headers: {
-          'Content-Type' : 'application/json',
-        },
-        body: JSON.stringify(requestBody)
-      })
-
-      if(response.ok) {
-        const data = await response.json()
-        setMessage(data.message)
-        setAuthenticated(true)
-      } else {
-        const errorMessage = await response.text()
-        console.log('Error message:', errorMessage)
-        setMessage('Check again foo! ', errorMessage)
+      if(primaCredential.userName && primaCredential.password) {
+        setLoading(true)
+        const response = await fetch('https://eterna-primavera-512c65c679c2.herokuapp.com/api/user/auth', {
+          method: 'POST',
+          headers: {
+            'Content-Type' : 'application/json',
+          },
+          body: JSON.stringify(requestBody)
+        })
+  
+        if(response.ok) {
+          const data = await response.json()
+          setMessage(data.message)
+          setAuthenticated(true)
+          setLoading(false)
+        } else {
+          const errorMessage = await response.text()
+          console.log('Error message:', errorMessage)
+          setMessage('Check again foo! ', errorMessage)
+        }
       }
       
     } catch(error) {
@@ -71,7 +76,7 @@ const UserLogin = ({setAuthenticated}) => {
             </Center>
             <Input mt={3} variant='flushed' p={3} type="text" name="userName" placeholder="Which prima are you?" value={primaCredential.userName} onChange={handleChange} />
             <Input variant='flushed' p={3} type="password" name="password" placeholder="Password" value={primaCredential.password} onChange={handleChange} />
-            <Button size='lg' variant='outline' mt={3} colorScheme='pink' onClick={handleLogin}>Login</Button>
+            <Button isLoading={loading} size='lg' variant='outline' mt={3} colorScheme='pink' onClick={handleLogin}>Login</Button>
           </Container>
         </Center>
       </VStack>
