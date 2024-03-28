@@ -6,16 +6,21 @@ const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID
 const AIRTABLE_EXPENSE = process.env.AIRTABLE_EXPENSE_TABLENAME
 const AIRTABLE_EARNINGS = process.env.AIRTABLE_EARNINGS_TABLENAME
 const ACCESS = process.env.AIRTABLE_ACCESS_KEY
+const NODEENV = process.env.NODE_ENV
+const tableExpense = NODEENV === 'development' ? process.env.AIRTABLE_DEV_EXPENSE : AIRTABLE_EXPENSE
+const tableEarning = NODEENV === 'development' ? process.env.AIRTABLE_DEV_EARNINGS : AIRTABLE_EARNINGS
 const getTableUrl = (url) => {
   return url
 }
 
-const expenseTable = getTableUrl(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_EXPENSE}`)
-const earningsTable = getTableUrl(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_EARNINGS}`)
+const expenseTable = getTableUrl(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${tableExpense}`)
+const earningsTable = getTableUrl(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${tableEarning}`)
 // const earningsTable = getTableUrl()
 
 export const authenticateUser = (req, res, next) => {
   const { alias, password } = req.body
+  const DEVUSER = process.env.DEV_ALIAS
+  const DEVPASS = process.env.DEV_PASS
   const USER1 = process.env.ALIASONE
   const PASS1 = process.env.ALIASONEPASS
   const USER2 = process.env.ALIASTWO
@@ -26,7 +31,8 @@ export const authenticateUser = (req, res, next) => {
   if(
     (alias === USER1 && password === PASS1) ||
     (alias === USER2 && password === PASS2) ||
-    (alias === USER3 && password === PASS3)
+    (alias === USER3 && password === PASS3) ||
+    (alias === DEVUSER && password === DEVPASS)
   ) {
     next() // Proceed to the next middleware or route handler
   } else {
@@ -36,7 +42,6 @@ export const authenticateUser = (req, res, next) => {
 
 export const createExpenseRecord = async (req, res) => {
   try {
-    // authenticateUser(req,res, () => {})
     const expenseFormData = req.body
     const expenseRecord = {
       fields: {
