@@ -79,7 +79,6 @@ const ExpenseForm = ({updateExpenses}) => {
           updateExpenses(prevExpenses => prevExpenses + parseFloat(expenseFormData.expenseAmount))
         }
   
-  
         if(selectRef.current) {
           selectRef.current.value = 'Select Entity'
         }
