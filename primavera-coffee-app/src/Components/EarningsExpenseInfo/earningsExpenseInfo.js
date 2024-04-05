@@ -48,10 +48,10 @@ const EarningsExpenseInfo = () => {
 
   const fetchData = async () => {
     try {
-      const expenseResponse = await fetch(`${process.env.REACT_APP_URL}/api/expenseView`)
+      const expenseResponse = await fetch(`https://eterna-primavera-512c65c679c2.herokuapp.com/api/expenseView`)
       const expenseData = await expenseResponse.json()
       const expenses = parseFloat(expenseData.totalExpenses.toFixed(2))
-      const earningResponse = await fetch(`${process.env.REACT_APP_URL}/api/earningView`)
+      const earningResponse = await fetch(`https://eterna-primavera-512c65c679c2.herokuapp.com/api/earningView`)
       const earningData = await earningResponse.json()
       const allEarningsEntries = earningData
       const earnings = parseFloat(earningData.totalEarnings.toFixed(2))
