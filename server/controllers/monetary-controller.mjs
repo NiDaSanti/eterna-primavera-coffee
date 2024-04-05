@@ -125,7 +125,7 @@ export const getExpenseData = async (req, res) => {
 
     const responseData = await response.json()
     const expenseData = responseData.records
-
+    console.log(expenseData)
     const totalExpenses = expenseData.reduce(
       (acc, expense) => acc + parseFloat(expense.fields.expenseAmount),
       0

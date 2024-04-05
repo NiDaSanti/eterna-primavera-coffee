@@ -39,7 +39,7 @@ const UserLogin = ({setAuthenticated}) => {
       }
       if(primaCredential.userName && primaCredential.password) {
         setLoading(true)
-        const response = await fetch('https://eterna-primavera-512c65c679c2.herokuapp.com/api/user/auth', {
+        const response = await fetch(`${process.env.REACT_APP_DEV_URL}/api/user/auth`, {
           method: 'POST',
           headers: {
             'Content-Type' : 'application/json',
