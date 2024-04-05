@@ -39,7 +39,7 @@ const UserLogin = ({setAuthenticated}) => {
       }
       if(primaCredential.userName && primaCredential.password) {
         setLoading(true)
-        const response = await fetch(`${process.env.REACT_APP_DEV_URL}/api/user/auth`, {
+        const response = await fetch(`${process.env.REACT_APP_URL}/api/user/auth`, {
           method: 'POST',
           headers: {
             'Content-Type' : 'application/json',
