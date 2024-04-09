@@ -1,5 +1,7 @@
 import React, {useState, useRef} from 'react'
 import {
+  Alert,
+  AlertIcon,
   Box,
   Button,
   Card,
@@ -26,6 +28,8 @@ const EarningsForm = ({updateEarnings}) => {
     entity: '',
     notes: '',
   })
+  const [showAlert, setShowAlert] = useState(false)
+  const [showStatus, setShowStatus] = useState(0)
   const [errorMessage, setErrorMessage] = useState('')
   const [loading, setLoading] = useState(false)
   const selectRef = useRef(null)
@@ -70,7 +74,15 @@ const EarningsForm = ({updateEarnings}) => {
             notes: ''
           })
           setLoading(false)
+          setShowStatus(response.status)
+          setShowAlert(true)
+          setErrorMessage(response.statusText)
           updateEarnings(prevEarnings => prevEarnings + parseFloat(earningsFormData.earningsAmount))
+        } else {
+          setLoading(false)
+          setShowStatus(response.status)
+          setShowAlert(true)
+          setErrorMessage(response.text)
         }
 
         if(selectRef.current) {
@@ -97,11 +109,11 @@ const EarningsForm = ({updateEarnings}) => {
                   fontSize='1.2em'
                 >$
                 </InputLeftElement>
-              <NumberInputField paddingLeft={7} type='text' name='earningsAmount' value={earningsFormData.earningsAmount} onChange={handleChange}/>
-              <NumberInputStepper>
+              <Input paddingLeft={7} type='text' name='earningsAmount' value={earningsFormData.earningsAmount} onChange={handleChange}/>
+              {/* <NumberInputStepper>
                 <NumberIncrementStepper />
                 <NumberDecrementStepper />
-              </NumberInputStepper>
+              </NumberInputStepper> */}
               </InputGroup>
             </NumberInput>
             <FormHelperText>Add total earnings amount for the week.</FormHelperText>
@@ -124,6 +136,10 @@ const EarningsForm = ({updateEarnings}) => {
             >
               Submit
           </Button>
+          {showAlert ? <Alert status={showStatus === 201 ? 'success' : 'error'} variant='subtle' mt={4}>
+            <AlertIcon/>
+            {errorMessage}
+          </Alert> : null}
         </FormControl>
       </form>
     </Card>

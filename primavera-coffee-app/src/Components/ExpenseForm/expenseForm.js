@@ -1,5 +1,7 @@
 import React, {useState, useRef} from 'react'
 import {
+  Alert,
+  AlertIcon,
   Box,
   Button,
   Card,
@@ -13,10 +15,10 @@ import {
   InputGroup,
   InputLeftElement,
   NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
+  // NumberInputField,
+  // NumberInputStepper,
+  // NumberIncrementStepper,
+  // NumberDecrementStepper,
   Select,
   Textarea
 } from '@chakra-ui/react'
@@ -29,6 +31,8 @@ const ExpenseForm = ({updateExpenses}) => {
     notes: ''
   })
   const [errorMessage, setErrorMessage] = useState('')
+  const [showAlert, setShowAlert] = useState(false)
+  const [responseStatus, setResponseStatus] = useState(0)
   const [loading, setLoading] = useState(false)
   const selectRef = useRef(null)
 
@@ -76,7 +80,15 @@ const ExpenseForm = ({updateExpenses}) => {
             notes: ''
           })
           setLoading(false)
+          setResponseStatus(response.status)
+          setShowAlert(true)
+          setErrorMessage(response.statusText)
           updateExpenses(prevExpenses => prevExpenses + parseFloat(expenseFormData.expenseAmount))
+        } else {
+          setLoading(false)
+          setResponseStatus(response.status)
+          setShowAlert(true)
+          setErrorMessage(response.text)
         }
   
         if(selectRef.current) {
@@ -117,11 +129,11 @@ const ExpenseForm = ({updateExpenses}) => {
                     fontSize='1.2em'
                   >$
                   </InputLeftElement>
-                  <NumberInputField paddingLeft={7} type='text' name='expenseAmount' value={expenseFormData.expenseAmount} onChange={handleChange}/>
-                  <NumberInputStepper>
+                  <Input paddingLeft={7} type='text' name='expenseAmount' value={expenseFormData.expenseAmount} onChange={handleChange}/>
+                  {/* <NumberInputStepper>
                     <NumberIncrementStepper />
                     <NumberDecrementStepper />
-                  </NumberInputStepper>
+                  </NumberInputStepper> */}
                 </InputGroup>
                 </NumberInput>
                 <FormHelperText>Enter amount in format like 0.00</FormHelperText>
@@ -137,6 +149,10 @@ const ExpenseForm = ({updateExpenses}) => {
                 >
                   Submit
               </Button>
+              {showAlert ? <Alert status={responseStatus === 201 ? 'success' : 'error'} variant='subtle' mt={4}>
+                <AlertIcon />
+                {errorMessage}
+              </Alert> : null}
             </FormControl>
           </form>
       </Card>

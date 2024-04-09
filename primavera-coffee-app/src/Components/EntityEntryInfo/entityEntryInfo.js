@@ -1,5 +1,7 @@
 import React from 'react'
 import {
+  Alert,
+  AlertIcon,
   Box,
   Card,
   Center,
@@ -39,6 +41,14 @@ const EntityEntryInfo = ({earningsView, expenseView, loading}) => {
   return(
   <Box bg={entityEntriesTabBackgroundColor}>
     <Skeleton isLoaded={!loading}>
+      <Alert status='info' variant='subtle'>
+        <AlertIcon />
+        <Text>This is a beta version. More features coming soon.</Text>
+      </Alert>
+      <Alert status='warning' variant='subtle'>
+        <AlertIcon />
+        <Text>IMPORTANT: The contents below indicates a record of contributions per person. Please ensure all inforamtion is accurate.</Text>
+      </Alert>
       <Wrap>
         {expenseArray.map(view => (
           <WrapItem>

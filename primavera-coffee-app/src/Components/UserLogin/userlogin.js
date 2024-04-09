@@ -1,6 +1,8 @@
 import React, {useState} from 'react'
 import coffeeCup from '../../Images/coffee-cup.jpg'
 import {
+  Alert,
+  AlertIcon,
   Box,
   Button,
   Card,
@@ -19,8 +21,11 @@ const UserLogin = ({setAuthenticated}) => {
     userName: '',
     password: ''
   })
-  const [message, setMessage] = useState('')
+  // const [statusCode, setStatusCode] = useState(0)
   const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState('')
+  const [statusResponse, setStatusResponse] = useState(0)
+  const [showAlert, setShowAlert] = useState(false)
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -46,16 +51,19 @@ const UserLogin = ({setAuthenticated}) => {
           },
           body: JSON.stringify(requestBody)
         })
-  
         if(response.ok) {
           const data = await response.json()
+          setShowAlert(true)
+          setLoading(false)
           setMessage(data.message)
           setAuthenticated(true)
-          setLoading(false)
+          setStatusResponse(response.status)
         } else {
           const errorMessage = await response.text()
-          console.log('Error message:', errorMessage)
-          setMessage('Check again foo! ', errorMessage)
+          setShowAlert(true)
+          setMessage(errorMessage)
+          setLoading(false)
+          setStatusResponse(response.status)
         }
       }
       
@@ -77,6 +85,10 @@ const UserLogin = ({setAuthenticated}) => {
             <Input mt={3} variant='flushed' p={3} type="text" name="userName" placeholder="Which prima are you?" value={primaCredential.userName} onChange={handleChange} />
             <Input variant='flushed' p={3} type="password" name="password" placeholder="Password" value={primaCredential.password} onChange={handleChange} />
             <Button isLoading={loading} size='lg' variant='outline' mt={3} colorScheme='pink' onClick={handleLogin}>Login</Button>
+            {showAlert ? <Alert status={statusResponse === 401 ? 'error' : null} variant='subtle' mt={4}>
+              <AlertIcon />
+                {message + "Status Code " + statusResponse + " "}
+            </Alert> : null}
           </Container>
         </Center>
       </VStack>
