@@ -21,7 +21,6 @@ const UserLogin = ({setAuthenticated}) => {
     userName: '',
     password: ''
   })
-  // const [statusCode, setStatusCode] = useState(0)
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
   const [statusResponse, setStatusResponse] = useState(0)

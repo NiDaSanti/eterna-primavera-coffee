@@ -73,7 +73,7 @@ const ExpenseForm = ({updateExpenses}) => {
   
         if(response.ok) {
           setExpenseFormData({
-            entity: '',
+	    entity: '',
             vendor: '',
             product: '',
             expenseAmount: '',
@@ -92,7 +92,7 @@ const ExpenseForm = ({updateExpenses}) => {
         }
   
         if(selectRef.current) {
-          selectRef.current.value = 'Select Entity'
+          selectRef.current.value = ''
         }
       }
 
@@ -108,7 +108,8 @@ const ExpenseForm = ({updateExpenses}) => {
           <form  onSubmit={handleSubmit}>
             <FormControl isRequired>
               <FormLabel>Entity</FormLabel>
-              <Select placeholder='Select Entity' name='entity' id='entity' onChange={handleEntityChange}>
+              <Select placeholder='' name='entity' id='entity' value={expenseFormData.entity} onChange={handleEntityChange} ref={selectRef}>
+	  	<option value='' disabled>Select Entity</option>
                 <option>Alice</option>
                 <option>Damaris</option>
                 <option>Joanna</option>

@@ -15,8 +15,6 @@ import {
   useColorModeValue
 } from '@chakra-ui/react'
 
-
-
 const EntityEntryInfo = ({earningsView, expenseView, loading}) => {
   const entityEntriesTabBackgroundColor = useColorModeValue('pink.50')
   const expenseArray = expenseView.expenses || []

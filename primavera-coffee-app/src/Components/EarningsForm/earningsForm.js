@@ -86,7 +86,7 @@ const EarningsForm = ({updateEarnings}) => {
         }
 
         if(selectRef.current) {
-          selectRef.current.value = 'Select Entity'
+          selectRef.current.value = ''
         }
 
       }
@@ -116,9 +116,10 @@ const EarningsForm = ({updateEarnings}) => {
               </NumberInputStepper> */}
               </InputGroup>
             </NumberInput>
-            <FormHelperText>Add total earnings amount for the week.</FormHelperText>
+            <FormHelperText>Add total earnings amount for the week, not including tips.</FormHelperText>
           <FormLabel>Entity</FormLabel>
-            <Select placeholder='Select Entity' name='entity' id='entity' value={earningsFormData.entity} onChange={handleEntityEntryChange} ref={selectRef}>
+            <Select placeholder='' name='entity' id='entity' value={earningsFormData.entity} onChange={handleEntityEntryChange} ref={selectRef}>
+	      <option value="" disabled>Select Entity</option>
               <option>Alice</option>
               <option>Damaris</option>
               <option>Joanna</option>

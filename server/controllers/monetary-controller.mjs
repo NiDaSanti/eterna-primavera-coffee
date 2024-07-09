@@ -79,13 +79,17 @@ export const createExpenseRecord = async (req, res) => {
 export const createEarningsRecord = async (req, res) => {
   try {
     const earningsFormData = req.body
+    debugger
+    console.log('Earnings Form Data: ', earningsFormData)
     const earningsRecord = {
       fields: {
         earningsAmount: earningsFormData.earningsAmount,
+        //tipAmount: earningsFormData.tipAmount,
         entity: earningsFormData.entity,
         notes: earningsFormData.notes
       }
     }
+    console.log('Earnings Record: ', earningsRecord)
     const response = await fetch(earningsTable, {
       method: 'POST',
       headers: {
@@ -103,6 +107,7 @@ export const createEarningsRecord = async (req, res) => {
       return
     }
     const responseData = await response.json()
+    console.log('response data: ', responseData)
     res.status(201).json({message: 'Earnings record created successfully ', records: [responseData]})
   } catch(err) {
     console.error('Error when attempting to create an earnings record.', err)
@@ -125,12 +130,10 @@ export const getExpenseData = async (req, res) => {
 
     const responseData = await response.json()
     const expenseData = responseData.records
-    console.log(expenseData)
     const totalExpenses = expenseData.reduce(
       (acc, expense) => acc + parseFloat(expense.fields.expenseAmount),
       0
     )
-
     res.json({expenses: expenseData, totalExpenses})
     
   } catch(err) {
@@ -153,9 +156,8 @@ export const getEarningData = async (req, res) => {
 
     const responseData = await response.json()
     const earningData = responseData.records
-
     const totalEarnings = earningData.reduce(
-      (acc, earning) => acc + parseFloat(earning.fields.earningsAmount),
+      (acc, earning) => acc + parseFloat(earning.fields.earningsAmount) + parseFloat(earning.fields.tipAmount),
       0
     )
 
@@ -167,14 +169,6 @@ export const getEarningData = async (req, res) => {
   }
 }
 
-// export const getEarningsOrExpensesPercentages = async (req, res) => {
-//   try{
-
-//   } catch(err) {
-//     console.error(`Failed to get percentage: ${err}`)
-//     res.status(500).json({err: 'An error occured while fetching pecentages.'})
-//   }
-// } 
 
 
 
