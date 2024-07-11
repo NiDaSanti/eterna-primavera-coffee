@@ -155,11 +155,14 @@ export const getEarningData = async (req, res) => {
     }
 
     const responseData = await response.json()
+    console.log(responseData)
     const earningData = responseData.records
-    const totalEarnings = earningData.reduce(
-      (acc, earning) => acc + parseFloat(earning.fields.earningsAmount) + parseFloat(earning.fields.tipAmount),
-      0
-    )
+    console.log(earningData)
+    const totalEarnings = earningData.reduce((acc, earning) => {
+      const amount = parseFloat(earning.fields.earningsAmount);
+      console.log('Parsed Earning Amount:', amount); // Log each parsed earning amount
+      return acc + amount;
+    }, 0)
 
     res.json({ earnings: earningData, totalEarnings })
 
