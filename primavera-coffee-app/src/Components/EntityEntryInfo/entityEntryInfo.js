@@ -3,15 +3,10 @@ import {
   Alert,
   AlertIcon,
   Box,
-  Card,
-  Center,
-  Divider,
   Heading,
   Skeleton,
-  Stack,
   Text,
-  Wrap,
-  WrapItem,
+  VStack,
   useColorModeValue
 } from '@chakra-ui/react'
 
@@ -20,22 +15,17 @@ const EntityEntryInfo = ({earningsView, expenseView, loading}) => {
   const expenseArray = expenseView.expenses || []
 
   function convertDates(utc) {
+    const months = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ]
     const date = new Date(utc)
     let year = date.getFullYear()
-    let day = date.getDay()
-    let month = date.getMonth()
-    let hour = date.getHours()
-    let minute = date.getMinutes()
-    const second = date.getSeconds()
-    if(month < 10)  {
-      month = `0${month}`
-    } 
-    if(day < 10) {
-      day = `0${day}`
-    }
-    day = day 
-    return `Submitted on ${month}/${day}/${year} @ ${hour}:${minute}:${second}`
+    let day = date.getDate()
+    let month = months[date.getMonth()]
+    return `${month} ${day}, ${year}`
   }
+
   return(
   <Box bg={entityEntriesTabBackgroundColor}>
     <Skeleton isLoaded={!loading}>
@@ -47,25 +37,22 @@ const EntityEntryInfo = ({earningsView, expenseView, loading}) => {
         <AlertIcon />
         <Text>IMPORTANT: The contents below indicates a record of contributions per person. Please ensure all inforamtion is accurate.</Text>
       </Alert>
-      <Wrap>
+      <VStack spacing={4} align='stretch'>
         {expenseArray.map(view => (
-          <WrapItem>
-            <Card m={4} p={3} key={view.id}>
-              <Stack direction='row' h='100px' p={4}>
-                <Divider orientation='vertical' />
-                <Heading size='md'>{view.fields.entity}</Heading>
-                <Text>{view.createdTime}</Text>
-              </Stack>
-                <Text>{view.fields.vendor}</Text>
-                <Divider orientation='horizontal' />
+            <Box h='90px' bg='#ffffff' key={view.id}>
+		{/*<Divider orientation='vertical' /> */}
+		<Heading size='md'>{view.fields.vendor}</Heading>
+                <Text size='md'>{view.fields.entity}</Text>
+                <Text>{convertDates(view.createdTime)}</Text>
+                <Heading size='sm'>{view.fields.expenseAmount}</Heading>
+		{/*<Divider orientation='horizontal' / >
                 <Text>{view.fields.product}</Text>
                 <Divider orientation='horizontal' />
                 <Heading size="sm">$ {view.fields.expenseAmount}</Heading>
-                <Divider orientation='horizontal' />
-            </Card>
-          </WrapItem>
+                <Divider orientation='horizontal' />*/}
+            </Box>
         ))}
-      </Wrap>
+     </VStack>
     </Skeleton>
   </Box>
   )
